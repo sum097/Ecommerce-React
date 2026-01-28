@@ -2,26 +2,27 @@ import React from "react";
 import NavLogo from "../../assets/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ( { setCartOpen, setMenuOpen }) => {
   return (
     <nav className="nav">
       <div className="nav__container">
-        <a href="/">
+        <Link to="/">
           <img src={NavLogo} alt="" className="nav__logo" />
-        </a>
+        </Link>
         <div className="nav__links">
-          <a href="/Products" className="nav__link">
+          <Link to="/Products" className="nav__link">
             Products
-          </a>
-          <button className="nav__cart">
+          </Link>
+          <button className="nav__cart" onClick={() => setCartOpen(true)}>
             <FontAwesomeIcon
               icon={faCartShopping}
               className="nav__cart__icon"
             />
             <span className="cart__length">4</span>
           </button>
-          <button className="nav__menu">
+          <button className="nav__menu" onClick={() => setMenuOpen(true)}>
             <FontAwesomeIcon icon={faBars} />
           </button>
         </div>

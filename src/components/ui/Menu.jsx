@@ -1,20 +1,21 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
-const Menu = () => {
+const Menu = ( {menuOpen, setMenuOpen} ) => {
   return (
-    <nav className="menu">
-      <button className="menu__close">
+    <nav className={`menu ${menuOpen &&"menu-open"}`}>
+      <button className="menu__close" onClick={() => setMenuOpen(false)}>
         <FontAwesomeIcon icon={faTimes} />
       </button>
       <div className="menu__links">
-        <a href="/" className="menu__link">
+        <Link to="/" className="menu__link">
           Home
-        </a>
-        <a href="/Products" className="menu__link">
+        </Link>
+        <Link to="/Products" className="menu__link">
           Products
-        </a>
+        </Link>
         <button className="menu__link menu__cart">Cart</button>
       </div>
     </nav>
