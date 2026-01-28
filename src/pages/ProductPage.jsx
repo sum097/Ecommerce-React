@@ -5,14 +5,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ProductSkeleton from "../components/ui/ProductSkeleton";
 import ProductPageSkeleton from "../components/ProductPageSkeleton";
+import SuccessPopup from "../components/ui/SuccessPopup";
 
 const ProductPage = () => {
-  const { products } = useContext(AppContext);
+  const { products, addToCart } = useContext(AppContext);
   const { id } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [successOpen, setSuccessOpen] = useState(false)
 
   async function fetchProduct() {
     try {
@@ -31,6 +33,16 @@ const ProductPage = () => {
     }
   }
 
+
+  function openSuccess(){
+    setSuccessOpen(true)
+
+    setTimeout(() => {
+      setSuccessOpen(false)
+    }, 1000)
+  }
+
+
   useEffect(() => {
     setLoading(true);
     window.scrollTo(0, 0);
@@ -39,6 +51,7 @@ const ProductPage = () => {
 
   return (
     <main className="products__main">
+      <SuccessPopup successOpen={successOpen}/>
       <div className="container">
         <div className="row product-page__row">
           {loading ? (
@@ -57,7 +70,7 @@ const ProductPage = () => {
                   <div className="selected-product__img__options">
                     {selectedProduct?.images.map((image, index) => (
                       <img
-                      key={index}
+                        key={index}
                         src={`https://ecommerce-samurai.up.railway.app/${image}`}
                         alt=""
                         onClick={() => setSelectedImage(image)}
@@ -104,7 +117,15 @@ const ProductPage = () => {
                       ${selectedProduct?.price * quantity}
                     </span>
                   </div>
-                  <button className="selected-product__add">Add To Cart</button>
+                  <button
+                    className="selected-product__add"
+                    onClick={() => {
+                      addToCart(selectedProduct, quantity)
+                      openSuccess()
+                    }}
+                  >
+                    Add To Cart
+                  </button>
                 </div>
               </div>
               <div className="specifications">
